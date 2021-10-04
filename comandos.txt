@@ -1,0 +1,6 @@
+npm install -g create-react-app
+
+create-react-app my-app
+
+npm i react-router-dom @types/react-router-dom axios
+
