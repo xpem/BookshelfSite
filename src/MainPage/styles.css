@@ -17,3 +17,9 @@
   .Main-Frame{
     margin-top: 10px;
   }
+
+  .label-icon {
+    font-size: 12px;
+    text-align: center;
+    color: #2b3133;
+  }

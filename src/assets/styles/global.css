@@ -33,10 +33,12 @@ body {
 body,
 input,
 button,
-textarea {
+textarea,
+p {
   font-family: 'Nunito', sans-serif;
   color: var(--color-text-base);
 }
+
 
 .container {
   width: 90vw;

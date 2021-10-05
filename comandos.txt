@@ -4,3 +4,4 @@ create-react-app my-app
 
 npm i react-router-dom @types/react-router-dom axios
 
+npm i material-icons-react
