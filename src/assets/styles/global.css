@@ -34,7 +34,8 @@ body,
 input,
 button,
 textarea,
-p {
+p,
+legend {
   font-family: 'Nunito', sans-serif;
   color: var(--color-text-base);
 }
@@ -66,6 +67,7 @@ p {
   border-radius: .25rem;
   padding: 4px;
   margin: 2px;
+  font-size: 2rem;
 }
 
 .button-secondary {

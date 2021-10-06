@@ -1,0 +1,38 @@
+
+ .input-block {
+    position: relative;
+  }
+  
+ .input-block + .input-block {
+    margin-top: .5rem;
+  }
+  
+ .input-block label {
+    font-size: 1.4rem;
+    color: black;
+    font-family: 'Nunito', sans-serif;
+  }
+  
+ .input-block input {
+    width: 100%;
+    height: 3.6rem;
+    margin-top: 0.25rem;
+    border-radius: .25rem;
+    background: white;
+    border: 1px solid black;
+    outline: 0;
+    padding: 0 1.6rem;
+    font: 1.6rem Nunito;
+    color: black;
+  }
+  
+ .input-block:focus-within::after {
+    width: (100% - 3.2rem);
+    height: 2px;
+    content: "";
+    background: black;
+    position: absolute;
+    left: 1.6rem;
+    right: 1.6rem;
+    bottom: 0;
+  }

@@ -1,0 +1,31 @@
+.Card-Item {
+  background-color: var(--main-color-secondary);
+  display: flex;
+  min-width: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: relative;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 1rem;
+  color: black;
+}
+
+.Main-Frame {
+  margin-top: 10px;
+}
+
+.label-icon {
+  font-size: 12px;
+  text-align: center;
+  color: #2b3133;
+}
+
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
