@@ -1,33 +1,28 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import PersonAdd from "../../../assets/icons/person_add.svg";
+import AutoStories from "../../../assets/icons/auto_stories_48dp.svg";
 import InputFunction from "../../../components/Input";
 import { useAuth } from "../../../contexts/AuthContext";
 
-function CreateUser() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
     console.log(password);
 
-    if (password !== passwordConfirm) {
-      return setError("Confirme corretamente sua senha.");
-    }
-
     try {
       setError("");
       setLoading(true);
-      await signup(email, password);
+      await login(email, password);
       history.push("/");
     } catch {
-      setError("Falha ao criar a conta.");
+      setError("Falha ao acessar a conta.");
     }
 
     setLoading(false);
@@ -35,16 +30,28 @@ function CreateUser() {
 
   return (
     <div className="Main-Frame">
-      <div style={{ textAlign: "center", width: "100%" }}>
-        <img src={PersonAdd} alt="Add User"></img>
+      <div
+        style={{
+          width: "100%",
+          padding: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <h2 style={{ display: "flex", color: "#000", fontSize: "40px" }}>
+          <img src={AutoStories} alt="Bookshelf"></img>&nbsp;Bookshelf
+        </h2>
       </div>
-      {error && <div className="alert alert-warning">{error}</div>}
+      {error && (
+        <div className="alert alert-warning">
+          <p>{error}</p>
+        </div>
+      )}
       <main>
-        <fieldset style={{ margin: "1rem", padding: "1rem" }}>
+        <fieldset style={{ padding: "2rem" }}>
           <form onSubmit={handleSubmit}>
-            {/* <InputFunction name="name" label="Nome" /> */}
             <InputFunction
-              name="name"
+              name="email"
               type="text"
               label="Email"
               onChange={(e) => {
@@ -52,22 +59,12 @@ function CreateUser() {
               }}
               required
             />
-            {/* <InputFunction name="name" label="Nome de Acesso" /> */}
             <InputFunction
               type="password"
-              name="name"
+              name="password"
               label="Senha"
               onChange={(e) => {
                 setPassword(e.target.value);
-              }}
-              required
-            />
-            <InputFunction
-              type="password"
-              name="name"
-              label="Confirme sua senha"
-              onChange={(e) => {
-                setPasswordConfirm(e.target.value);
               }}
               required
             />
@@ -77,15 +74,26 @@ function CreateUser() {
               style={{ marginTop: "1rem" }}
               disabled={loading}
             >
-              Cadastrar
+              Acessar
             </button>
           </form>
         </fieldset>
-        <p style={{ padding: "2rem" }}>
-          Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
+        <p
+          style={{
+            padding: "1rem",
+            fontSize: "1.5rem",
+            fontStyle: "italic",
+            color: "#383838",
+          }}
+        >
+          {" "}
+          Precisa criar uma conta? <Link to="/CreateUser"> Acesse aqui para criar sua conta!</Link>
+          {" "}
+          Esqueceu sua senha? <Link to="/ForgotPassword"> Acesse aqui para recuperar senha!</Link>
         </p>
       </main>
     </div>
   );
 }
-export default CreateUser;
+
+export default Login;

@@ -6,6 +6,7 @@
   --main-frame-color: #bdbdbd;
   --main-text-color: #ededed;
   --main-color-secondary: #607D8B;
+  --color-text-base: #000;
 }
 
 * {
@@ -67,7 +68,8 @@ legend {
   border-radius: .25rem;
   padding: 4px;
   margin: 2px;
-  font-size: 2rem;
+  font-size: 2rem;  
+  color:white;
 }
 
 .button-secondary {
@@ -75,8 +77,23 @@ legend {
   border: 0;
   border-radius: .25rem;
   padding: 4px;
-  color: black;
   margin: 2px;
+}
+
+.alert {
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+}
+
+.alert-warning {
+color: #856404;
+background-color: #fff3cd;
+border-color: #ffeeba;
 }
 
 /*
