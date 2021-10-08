@@ -5,12 +5,34 @@ import checklist from "../../assets/icons/checklist.svg";
 import collections_bookmark from "../../assets/icons/collections_bookmark.svg";
 import book from "../../assets/icons/book.svg";
 import archive from "../../assets/icons/inventory.svg";
-import logout from "../../assets/icons/logout.svg";
+import sgvlogout from "../../assets/icons/logout.svg";
 import next from "../../assets/icons/arrow_forward.svg";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useHistory } from "react-router";
 
 function MainPage() {
-  const totals = [10,12,14,16];
+  const totals = [10, 12, 14, 16];
+  const [error, setError] = useState("");
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
+
+  async function handleLogOut() {
+    
+    try {
+
+      setError("");
+     await logout();
+      history.push("/login");
+    } catch {
+      setError("Erro ao tentar deslogar");
+    }
+  }
+
+  //para efeito de testes, imprime o current email logado.
+  if (currentUser) {
+    console.log(currentUser.Email);
+  }
 
   return (
     <div>
@@ -135,8 +157,14 @@ function MainPage() {
         <button className="button-primary icon-button">
           <img src={archive} alt="Archive" height="25px"></img> - Arquivo
         </button>
-        <button className="button-secondary icon-button">
-          <img src={logout} alt="LogOut" height="15px"></img> - Sair
+        <button className="button-secondary icon-button" onClick={handleLogOut}>
+          <img
+            src={sgvlogout}
+            alt="LogOut"
+            height="15px"
+     
+          ></img>{" "}
+          - Sair
         </button>
       </div>
     </div>
@@ -145,6 +173,3 @@ function MainPage() {
 
 export default MainPage;
 
-/*
- 
-*/
