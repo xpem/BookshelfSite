@@ -42,17 +42,13 @@ function Login() {
           <img src={AutoStories} alt="Bookshelf"></img>&nbsp;Bookshelf
         </h2>
       </div>
-      {error && (
-        <div className="alert alert-warning">
-          <p>{error}</p>
-        </div>
-      )}
+      {error && <div className="alert alert-warning"> {error} </div>}
       <main>
         <fieldset style={{ padding: "2rem" }}>
           <form onSubmit={handleSubmit}>
             <InputFunction
               name="email"
-              type="text"
+              type="email"
               label="Email"
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -86,10 +82,12 @@ function Login() {
             color: "#383838",
           }}
         >
-          {" "}
-          Precisa criar uma conta? <Link to="/CreateUser"> Acesse aqui para criar sua conta!</Link>
-          {" "}
-          Esqueceu sua senha? <Link to="/ForgotPassword"> Acesse aqui para recuperar senha!</Link>
+          <br />
+          Precisa criar uma conta?{" "}
+          <Link to="/CreateUser"> Acesse aqui para criar sua conta!</Link>
+          <br />
+          Esqueceu sua senha?{" "}
+          <Link to="/ForgotPassword"> Acesse aqui para recuperar senha!</Link>
         </p>
       </main>
     </div>

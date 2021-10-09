@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import PersonAdd from "../../../assets/icons/person_add.svg";
+import SvgManageAccounts from "../../../assets/icons/manage_accounts.svg";
 import InputFunction from "../../../components/Input";
+import LinkBack from "../../../components/LinkBack";
 import { useAuth } from "../../../contexts/AuthContext";
 
-function CreateUser() {
+function UpdateUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const { signup } = useAuth();
+  const { currentUser, updateEmail, updatePassword } = useAuth();
   const history = useHistory();
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     console.log(password);
 
@@ -21,47 +22,65 @@ function CreateUser() {
       return setError("Confirme corretamente sua senha.");
     }
 
-    try {
-      setError("");
-      setLoading(true);
-      await signup(email, password);
-      history.push("/");
-    } catch {
-      setError("Falha ao criar a conta.");
+    const promisses = [];
+    setLoading(true);
+    setError("");
+    if (email !== currentUser.email) {
+      promisses.push(updateEmail(email));
     }
 
-    setLoading(false);
+    if (password) {
+      promisses.push(updatePassword(password));
+    }
+
+    Promise.all(promisses)
+      .then(() => {
+        history.push("/");
+      })
+      .catch(() => {
+        setError("Falha ao atualizar a conta");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
     <div className="Main-Frame">
       <div style={{ textAlign: "center", width: "100%" }}>
-        <img src={PersonAdd} alt="Add User"></img>
+        <img src={SvgManageAccounts} alt="Update Profile"></img>
       </div>
-      {error && <div className="alert alert-warning">{error}</div>}
+      {error && <div className="alert alert-warning"> {error} </div>}
       <main>
-        <fieldset style={{ margin: "1rem", padding: "1rem" }}>
+        <fieldset style={{ padding: "2rem" }}>
           <form onSubmit={handleSubmit}>
-            {/* <InputFunction name="name" label="Nome" /> */}
             <InputFunction
-              name="Email"
+              name="email"
               type="email"
               label="Email"
+              defaultValue={currentUser.email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
               required
             />
-            {/* <InputFunction name="name" label="Nome de Acesso" /> */}
             <InputFunction
               type="password"
-              name="name"
+              name="password"
               label="Senha"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              required
             />
+            <p
+              style={{
+                fontSize: "1.25rem",
+                fontStyle: "italic",
+                color: "#464646",
+              }}
+            >
+              *Deixe em branco para manter a senha atual
+            </p>
             <InputFunction
               type="password"
               name="password"
@@ -69,23 +88,30 @@ function CreateUser() {
               onChange={(e) => {
                 setPasswordConfirm(e.target.value);
               }}
-              required
             />
+            <p
+              style={{
+                fontSize: "1.25rem",
+                fontStyle: "italic",
+                color: "#464646",
+              }}
+            >
+              *Deixe em branco para manter a senha atual
+            </p>
             <button
               className="button-primary"
               type="submit"
               style={{ marginTop: "1rem" }}
               disabled={loading}
             >
-              Cadastrar
+              Atualizar Perfil
             </button>
           </form>
         </fieldset>
-        <p style={{ padding: "2rem" }}>
-          Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
-        </p>
       </main>
+      <LinkBack loading={loading} to="/" />
     </div>
   );
 }
-export default CreateUser;
+
+export default UpdateUser;

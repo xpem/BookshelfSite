@@ -1,0 +1,12 @@
+.linkArrowBack {
+  margin-top: 1rem;
+  display: flex;
+  background-color: transparent;
+  height: 25px;
+  border-radius: 0.25rem;
+  width: fit-content;
+}
+
+.linkArrowBack:hover {
+  background-color: #959595;
+}

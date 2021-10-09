@@ -3,12 +3,14 @@ import svgLockOpen from "../../../assets/icons/lock_open.svg";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import InputFunction from "../../../components/Input";
+import { auth } from "../../../firebase";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { resetPassword } = useAuth();
   const history = useHistory();
 
   async function handleSubmit(e) {
@@ -16,11 +18,13 @@ function ForgotPassword() {
 
     try {
       setError("");
+      setMessage("");
       setLoading(true);
-      //   await login(email, password);
+      await resetPassword(email);
+      alert("Email de alteração de senha enviado!");
       history.push("/");
     } catch {
-      setError("Falha ao acessar a conta.");
+      setError("Falha ao enviar email de recuperação da conta.");
     }
 
     setLoading(false);
@@ -31,17 +35,14 @@ function ForgotPassword() {
       <div style={{ textAlign: "center", width: "100%" }}>
         <img src={svgLockOpen} alt="Recover Password"></img>
       </div>
-      {error && (
-        <div className="alert alert-warning">
-          <p>{error}</p>
-        </div>
-      )}
+      {error && <div className="alert alert-warning"> {error} </div>}
+      {message && <div className="alert alert-success"> {message} </div>}
       <main>
         <fieldset style={{ padding: "2rem" }}>
           <form onSubmit={handleSubmit}>
             <InputFunction
               name="email"
-              type="text"
+              type="email"
               label="Email"
               onChange={(e) => {
                 setEmail(e.target.value);
