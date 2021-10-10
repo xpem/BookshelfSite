@@ -18,11 +18,9 @@ function MainPage() {
   const history = useHistory();
 
   async function handleLogOut() {
-    
     try {
-
       setError("");
-     await logout();
+      await logout();
       history.push("/login");
     } catch {
       setError("Erro ao tentar deslogar");
@@ -39,114 +37,133 @@ function MainPage() {
       <div className="Main-Frame">
         <div className="Card-Item">
           <table style={{ width: "100%" }}>
-            <tr>
-              <td style={{ width: "70px" }}>
-                <table>
-                  <tr style={{ display: "flex" }}>
-                    <td style={{ height: "36px" }}>
-                      <img src={format_list_bulleted} alt="Ill Read"></img>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="label-icon">Vou Ler</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style={{ width: "auto" }}>
-                <p>
-                  <h1>{totals[0]}</h1>
-                </p>
-              </td>
-              <td style={{ width: "30px" }}>
-                <img src={next} alt="Next"></img>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: "70px" }}>
+                  <table>
+                    <tbody>
+                      <tr style={{ display: "flex" }}>
+                        <td style={{ height: "36px" }}>
+                          <img src={format_list_bulleted} alt="Ill Read"></img>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p className="label-icon">Vou Ler</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style={{ width: "auto" }}>
+                  <p>
+                    <h1>{totals[0]}</h1>
+                  </p>
+                </td>
+                <td style={{ width: "30px" }}>
+                  <img src={next} alt="Next"></img>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div className="Card-Item">
           <table style={{ width: "100%" }}>
-            <tr>
-              <td style={{ width: "70px" }}>
-                <table>
-                  <tr style={{ display: "flex" }}>
-                    <td style={{ height: "36px" }}>
-                      <img src={auto_stories} alt="Reading"></img>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="label-icon">Lendo</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style={{ width: "auto" }}>
-                <p>
-                  <h1>{totals[1]}</h1>
-                </p>
-              </td>
-              <td style={{ width: "30px" }}>
-                <img src={next} alt="Next"></img>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: "70px" }}>
+                  <table>
+                    <tbody>
+                      <tr style={{ display: "flex" }}>
+                        <td style={{ height: "36px" }}>
+                          <img src={auto_stories} alt="Reading"></img>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p className="label-icon">Lendo</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style={{ width: "auto" }}>
+                  <p>
+                    <h1>{totals[1]}</h1>
+                  </p>
+                </td>
+                <td style={{ width: "30px" }}>
+                  <img src={next} alt="Next"></img>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div className="Card-Item">
           <table style={{ width: "100%" }}>
-            <tr>
-              <td style={{ width: "70px" }}>
-                <table>
-                  <tr style={{ display: "flex" }}>
-                    <td style={{ height: "36px" }}>
-                      <img src={checklist} alt="Read"></img>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="label-icon">Lidos</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style={{ width: "auto" }}>
-                <p>
-                  <h1>{totals[2]}</h1>
-                </p>
-              </td>
-              <td style={{ width: "30px" }}>
-                <img src={next} alt="Next"></img>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: "70px" }}>
+                  <table>
+                    <tbody>
+                      <tr style={{ display: "flex" }}>
+                        <td style={{ height: "36px" }}>
+                          <img src={checklist} alt="Read"></img>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p className="label-icon">Lidos</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style={{ width: "auto" }}>
+                  <p>
+                    <h1>{totals[2]}</h1>
+                  </p>
+                </td>
+                <td style={{ width: "30px" }}>
+                  <img src={next} alt="Next"></img>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div className="Card-Item">
           <table style={{ width: "100%" }}>
-            <tr>
-              <td style={{ width: "70px" }}>
-                <table>
-                  <tr style={{ display: "flex" }}>
-                    <td style={{ height: "36px" }}>
-                      <img src={collections_bookmark} alt="Interrupted"></img>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="label-icon">Suspensos</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style={{ width: "auto" }}>
-                <p>
-                  <h1>{totals[3]}</h1>
-                </p>
-              </td>
-              <td style={{ width: "30px" }}>
-                <img src={next} alt="Next"></img>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: "70px" }}>
+                  <table>
+                    <tbody>
+                      <tr style={{ display: "flex" }}>
+                        <td style={{ height: "36px" }}>
+                          <img
+                            src={collections_bookmark}
+                            alt="Interrupted"
+                          ></img>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p className="label-icon">Suspensos</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style={{ width: "auto" }}>
+                  <p>
+                    <h1>{totals[3]}</h1>
+                  </p>
+                </td>
+                <td style={{ width: "30px" }}>
+                  <img src={next} alt="Next"></img>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -158,13 +175,7 @@ function MainPage() {
           <img src={archive} alt="Archive" height="25px"></img> - Arquivo
         </button>
         <button className="button-secondary icon-button" onClick={handleLogOut}>
-          <img
-            src={sgvlogout}
-            alt="LogOut"
-            height="15px"
-     
-          ></img>{" "}
-          - Sair
+          <img src={sgvlogout} alt="LogOut" height="15px"></img> - Sair
         </button>
       </div>
     </div>
@@ -172,4 +183,3 @@ function MainPage() {
 }
 
 export default MainPage;
-

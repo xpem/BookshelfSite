@@ -3,11 +3,14 @@ import { Link, useHistory } from "react-router-dom";
 import PersonAdd from "../../../assets/icons/person_add.svg";
 import InputFunction from "../../../components/Input";
 import { useAuth } from "../../../contexts/AuthContext";
+import { CreateUserProfile } from "../../../controllers/UserController";
 
 function CreateUser() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [Continue, setContinue] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const { signup } = useAuth();
@@ -24,8 +27,19 @@ function CreateUser() {
     try {
       setError("");
       setLoading(true);
-      await signup(email, password);
-      history.push("/");
+      setContinue(false);
+
+      //cria o usuário
+      // var newuser = await signup(email, password);
+      //console.log(newuser.user.uid);
+
+     var uid = "jeGy9cvZ2BR0rmUzNxTxBih6j862";
+
+     var resp = CreateUserProfile(name, email, uid);
+     console.log(resp)
+      //salva o perfil do usuário
+
+      setContinue(true);
     } catch {
       setError("Falha ao criar a conta.");
     }
@@ -41,49 +55,75 @@ function CreateUser() {
       {error && <div className="alert alert-warning">{error}</div>}
       <main>
         <fieldset style={{ margin: "1rem", padding: "1rem" }}>
-          <form onSubmit={handleSubmit}>
-            {/* <InputFunction name="name" label="Nome" /> */}
-            <InputFunction
-              name="Email"
-              type="email"
-              label="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required
-            />
-            {/* <InputFunction name="name" label="Nome de Acesso" /> */}
-            <InputFunction
-              type="password"
-              name="name"
-              label="Senha"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              required
-            />
-            <InputFunction
-              type="password"
-              name="password"
-              label="Confirme sua senha"
-              onChange={(e) => {
-                setPasswordConfirm(e.target.value);
-              }}
-              required
-            />
-            <button
-              className="button-primary"
-              type="submit"
-              style={{ marginTop: "1rem" }}
-              disabled={loading}
-            >
-              Cadastrar
-            </button>
-          </form>
+          {!Continue ? (
+            <>
+              <form onSubmit={handleSubmit}>
+                <InputFunction
+                  name="UserName"
+                  type="text"
+                  label="Nome"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  required
+                />
+                <InputFunction
+                  name="Email"
+                  type="email"
+                  label="Email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  required
+                />
+                {/* <InputFunction name="name" label="Nome de Acesso" /> */}
+                <InputFunction
+                  type="password"
+                  name="name"
+                  label="Senha"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  required
+                />
+                <InputFunction
+                  type="password"
+                  name="password"
+                  label="Confirme sua senha"
+                  onChange={(e) => {
+                    setPasswordConfirm(e.target.value);
+                  }}
+                  required
+                />
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  style={{ marginTop: "1rem" }}
+                  disabled={loading}
+                >
+                  Cadastrar
+                </button>
+              </form>
+              <p style={{ padding: "2rem" }}>
+                Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="alert alert-success">
+                Conta Criada com sucesso!
+              </div>
+              <Link to="/Login">
+                <button
+                  className="btn btn-primary"
+                  style={{ marginTop: "1rem" }}
+                >
+                  Continuar
+                </button>
+              </Link>
+            </>
+          )}
         </fieldset>
-        <p style={{ padding: "2rem" }}>
-          Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
-        </p>
       </main>
     </div>
   );

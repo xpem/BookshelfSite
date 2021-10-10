@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap");
 
 :root {
   font-size: 60%;
   --content-page-color: #212121;
   --main-frame-color: #bdbdbd;
   --main-text-color: #ededed;
-  --main-color-secondary: #607D8B;
+  --main-color-secondary: #607d8b;
   --color-text-base: #000;
 }
 
@@ -37,10 +37,9 @@ button,
 textarea,
 p,
 legend {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   color: var(--color-text-base);
 }
-
 
 .container {
   width: 90vw;
@@ -57,48 +56,67 @@ legend {
   font-size: calc(10px + 2vmin);
   color: white;
   position: relative;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   padding: 15px;
 }
 
-.button-primary {
-  width: 100%;
-  background-color: #362624;
-  border: 0;
-  border-radius: .25rem;
+.btn {
+  border-radius: 0.25rem;
+  display: inline-block;
+  border: 1px solid transparent;
   padding: 4px;
   margin: 2px;
-  font-size: 2rem;  
-  color:white;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;  
 }
+
+.btn:hover {
+  filter: brightness(0.85);
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: #362624; 
+  font-size: 2rem;
+  color: white;
+}
+
+
 
 .button-secondary {
   background-color: var(--main-color-secondary);
   border: 0;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   padding: 4px;
   margin: 2px;
 }
 
 .alert {
   position: relative;
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
-  border-radius: .25rem;
-  font-family: 'Nunito', sans-serif;
+  border-radius: 0.25rem;
+  font-family: "Nunito", sans-serif;
   font-size: 1.5rem;
 }
 
 .alert-warning {
-color: #856404;
-background-color: #fff3cd;
-border-color: #ffeeba;
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
 }
 
-.LinkBack{
-  
+.alert-success {
+  color: #fff;
+  background-color: #155724;
+  border-color: #155724;
 }
+
+.button-success:hover {
+	color: #fff;
+	background-color: #0f421b;
+}
+
 /*
 .card {
   position: relative;
