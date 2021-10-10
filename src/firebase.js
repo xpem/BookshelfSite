@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import 'firebase/compat/database';
 
 const app = firebase.initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,6 +12,8 @@ const app = firebase.initializeApp({
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,  
     appId: process.env.REACT_APP_FIREBASE_API_ID,  
 });
-
+//for authentication functions
 export const auth = app.auth();
+//for database functions
+export const db = app.database();
 export default app;
