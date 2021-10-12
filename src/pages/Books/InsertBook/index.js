@@ -1,47 +1,31 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import PersonAdd from "../../../assets/icons/person_add.svg";
+import svgbook from "../../../assets/icons/book.svg";
 import InputFunction from "../../../components/Input";
-import { useAuth } from "../../../contexts/AuthContext";
-import { CreateUserProfile } from "../../../controllers/UserController";
+import { Link, useHistory } from "react-router-dom";
 
-function CreateUser() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function InsertBook() {
+  //default form vars
   const [error, setError] = useState("");
   const [Continue, setContinue] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const { signup } = useAuth();
-  const history = useHistory();
+
+//
+const [Title, setTitle] = useState("");
+const [SubTitle, setSubtitle] = useState("");
+const [Volume, setVolume] = useState("");
+const [Year, setYear] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(password);
-
-    if (password !== passwordConfirm) {
-      return setError("Confirme corretamente sua senha.");
-    }
 
     try {
       setError("");
       setLoading(true);
       setContinue(false);
 
-      //cria o usuário
-      // var newuser = await signup(email, password);
-      //console.log(newuser.user.uid);
-
-     var uid = "jeGy9cvZ2BR0rmUzNxTxBih6j862";
-
-     var resp = CreateUserProfile(name, email, uid);
-     console.log(resp)
-      //salva o perfil do usuário
-
       setContinue(true);
     } catch {
-      setError("Falha ao criar a conta.");
+      setError("Falha ao criar o livro.");
     }
 
     setLoading(false);
@@ -50,7 +34,7 @@ function CreateUser() {
   return (
     <div className="Main-Frame">
       <div style={{ textAlign: "center", width: "100%" }}>
-        <img src={PersonAdd} alt="Add User"></img>
+        <img src={svgbook} alt="Add Book"></img>
       </div>
       {error && <div className="alert alert-warning">{error}</div>}
       <main>
@@ -59,41 +43,38 @@ function CreateUser() {
             <>
               <form onSubmit={handleSubmit}>
                 <InputFunction
-                  name="UserName"
+                  name="Title"
                   type="text"
-                  label="Nome"
+                  label="Título"
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setTitle(e.target.value);
                   }}
                   required
                 />
                 <InputFunction
-                  name="Email"
-                  type="email"
-                  label="Email"
+                  name="Subtitle"
+                  type="text"
+                  label="*Subtítulo"
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setSubtitle(e.target.value);
                   }}
-                  required
                 />
                 {/* <InputFunction name="name" label="Nome de Acesso" /> */}
                 <InputFunction
-                  type="password"
-                  name="name"
-                  label="Senha"
+                  type="number"
+                  name="Volume"
+                  label="*Volume"
                   onChange={(e) => {
-                    setPassword(e.target.value);
+                    setVolume(e.target.value);
                   }}
-                  required
                 />
                 <InputFunction
-                  type="password"
-                  name="password"
-                  label="Confirme sua senha"
+                  type="number"
+                  name="Year"
+                  label="*Ano"
                   onChange={(e) => {
-                    setPasswordConfirm(e.target.value);
+                    setYear(e.target.value);
                   }}
-                  required
                 />
                 <button
                   className="btn btn-primary"
@@ -104,16 +85,14 @@ function CreateUser() {
                   Cadastrar
                 </button>
               </form>
-              <p style={{ padding: "2rem" }}>
-                Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
-              </p>
+             
             </>
           ) : (
             <>
               <div className="alert alert-success">
-                Conta Criada com sucesso!
+                Livro adicionado!
               </div>
-              <Link to="/Login">
+              <Link to="/">
                 <button
                   className="btn btn-primary"
                   style={{ marginTop: "1rem" }}
@@ -128,4 +107,3 @@ function CreateUser() {
     </div>
   );
 }
-export default CreateUser;

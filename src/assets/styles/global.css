@@ -80,9 +80,7 @@ legend {
   color: white;
 }
 
-
-
-.button-secondary {
+.btn-secondary {
   background-color: var(--main-color-secondary);
   border: 0;
   border-radius: 0.25rem;

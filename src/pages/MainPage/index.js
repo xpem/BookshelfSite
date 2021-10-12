@@ -3,13 +3,14 @@ import format_list_bulleted from "../../assets/icons/format_list_bulleted.svg";
 import auto_stories from "../../assets/icons/auto_stories.svg";
 import checklist from "../../assets/icons/checklist.svg";
 import collections_bookmark from "../../assets/icons/collections_bookmark.svg";
-import book from "../../assets/icons/book.svg";
+
 import archive from "../../assets/icons/inventory.svg";
 import sgvlogout from "../../assets/icons/logout.svg";
 import next from "../../assets/icons/arrow_forward.svg";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 function MainPage() {
   const totals = [10, 12, 14, 16];
@@ -168,13 +169,20 @@ function MainPage() {
         </div>
       </div>
       <div className="Main-Frame">
-        <button className="button-primary icon-button">
-          <img src={book} alt="Add a book" height="25px"></img> - Adicionar
-        </button>
-        <button className="button-primary icon-button">
-          <img src={archive} alt="Archive" height="25px"></img> - Arquivo
-        </button>
-        <button className="button-secondary icon-button" onClick={handleLogOut}>
+        <div className="grid-btns">
+          <Link to="/InsertBook">
+            <button className="grid-left btn btn-primary">
+              Adicionar Livro
+            </button>
+          </Link>
+          <button className="grid-right btn btn-primary">
+            Arquivo
+          </button>
+        </div>
+        <button
+          className="btn btn-secondary icon-button"
+          onClick={handleLogOut}
+        >
           <img src={sgvlogout} alt="LogOut" height="15px"></img> - Sair
         </button>
       </div>

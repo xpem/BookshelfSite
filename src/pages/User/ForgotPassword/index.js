@@ -50,7 +50,7 @@ function ForgotPassword() {
               required
             />
             <button
-              className="button-primary"
+              className="btn btn-primary"
               type="submit"
               style={{ marginTop: "1rem" }}
               disabled={loading}

@@ -29,3 +29,19 @@
   justify-content: center;
   align-items: center;
 }
+
+.grid-btns{
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: 
+  "grid-left grid-right";
+}
+
+.grid-left
+{
+  grid-area: "grid-left";
+}
+.grid-right
+{
+  grid-area: "grid-right";
+}

@@ -24,7 +24,6 @@ function Login() {
     } catch {
       setError("Falha ao acessar a conta.");
     }
-
     setLoading(false);
   }
 
@@ -65,7 +64,7 @@ function Login() {
               required
             />
             <button
-              className="button-primary"
+              className="btn btn-primary"
               type="submit"
               style={{ marginTop: "1rem" }}
               disabled={loading}
