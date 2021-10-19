@@ -6,12 +6,21 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
   position: relative;
   border-radius: 0.25rem;
   padding: 1rem;
   margin: 1rem;
   color: black;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.Card-Item:hover {
+  filter: brightness(0.85);
+}
+
+.Link-Card-Item {
+  text-decoration: none;
 }
 
 .Main-Frame {
@@ -30,18 +39,15 @@
   align-items: center;
 }
 
-.grid-btns{
+.grid-btns {
   display: grid;
   grid-gap: 1rem;
-  grid-template-areas: 
-  "grid-left grid-right";
+  grid-template-areas: "grid-left grid-right";
 }
 
-.grid-left
-{
+.grid-left {
   grid-area: "grid-left";
 }
-.grid-right
-{
+.grid-right {
   grid-area: "grid-right";
 }

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import svgbook from "../../../assets/icons/book.svg";
 import InputFunction from "../../../components/Input";
 import { Link, useHistory } from "react-router-dom";
+import "./styles.css";
+import LinkBack from "../../../components/LinkBack";
+import Select from "react-select";
+import ReactStars from "react-rating-stars-component";
 
 export default function InsertBook() {
   //default form vars
@@ -9,12 +13,27 @@ export default function InsertBook() {
   const [Continue, setContinue] = useState(false);
   const [loading, setLoading] = useState(false);
 
-//
-const [Title, setTitle] = useState("");
-const [SubTitle, setSubtitle] = useState("");
-const [Volume, setVolume] = useState("");
-const [Year, setYear] = useState("");
+  //
+  const [Title, setTitle] = useState("");
+  const [SubTitle, setSubtitle] = useState("");
+  const [Volume, setVolume] = useState("");
+  const [Year, setYear] = useState("");
+  const [Authors, setAuthors] = useState("");
+  const [Pages, setPages] = useState("");
+  const [Genre, setGenre] = useState("");
+  const [Isbn, setIsbn] = useState("");
+  const [Rate, setRate] = useState(0);
 
+  //select itens temp
+  const options = [
+    { value: "0", label: "Nenhuma" },
+    { value: "1", label: "Vou ler" },
+    { value: "2", label: "Lendo" },
+    { value: "3", label: "Lido" },
+    { value: "4", label: "Interrompido" },
+  ];
+
+  //
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -22,7 +41,6 @@ const [Year, setYear] = useState("");
       setError("");
       setLoading(true);
       setContinue(false);
-
       setContinue(true);
     } catch {
       setError("Falha ao criar o livro.");
@@ -59,39 +77,117 @@ const [Year, setYear] = useState("");
                     setSubtitle(e.target.value);
                   }}
                 />
-                {/* <InputFunction name="name" label="Nome de Acesso" /> */}
+                <div className="grid-two-columns">
+                  <div className="grid-left" style={{ width: "150px" }}>
+                    <InputFunction
+                      type="number"
+                      name="Volume"
+                      label="*Volume"
+                      onChange={(e) => {
+                        setVolume(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="grid-right" style={{ width: "150px" }}>
+                    <InputFunction
+                      name="Year"
+                      label="*Ano"
+                      type="number"
+                      min="1800"
+                      max="2050"
+                      step="1"
+                      onChange={(e) => {
+                        setYear(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
                 <InputFunction
-                  type="number"
-                  name="Volume"
-                  label="*Volume"
+                  name="Authors"
+                  type="text"
+                  label="Autor(a)(es)"
                   onChange={(e) => {
-                    setVolume(e.target.value);
+                    setAuthors(e.target.value);
+                  }}
+                  required
+                />
+                <div className="grid-two-columns">
+                  <div className="grid-left" style={{ width: "100px" }}>
+                    <InputFunction
+                      name="Pages"
+                      label="Páginas"
+                      type="number"
+                      min="1"
+                      max="3000"
+                      step="1"
+                      onChange={(e) => {
+                        setPages(e.target.value);
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="grid-right">
+                    <InputFunction
+                      name="Genre"
+                      type="text"
+                      label="*Gênero"
+                      onChange={(e) => {
+                        setGenre(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+                <InputFunction
+                  name="Isbn"
+                  type="text"
+                  label="*Isbn"
+                  onChange={(e) => {
+                    setIsbn(e.target.value);
                   }}
                 />
-                <InputFunction
-                  type="number"
-                  name="Year"
-                  label="*Ano"
-                  onChange={(e) => {
-                    setYear(e.target.value);
+                <hr
+                  style={{
+                    height: "1px",
+                    borderWidth: 0,
+                    marginTop: "1rem",
+                    color: "black",
                   }}
                 />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: "black",
+                  }}
+                >
+                  <h3 style={{ padding: ".5rem" }}>Situação</h3>
+                  <div style={{ width: "200px", fontSize: "15px" }}>
+                    <Select options={options} styles={{ color: "black" }} />
+                  </div>
+                  <fieldset style={{ margin: "1rem", padding: "1rem",fontSize: "20px" }}>
+                    <p>Avaliação pessoal: {Rate} de 5</p>
+                  <ReactStars
+                    count={5}
+                    onChange={setRate}
+                    size={24}
+                    activeColor="black"
+                  />
+                  </fieldset>
+                </div>
                 <button
                   className="btn btn-primary"
                   type="submit"
                   style={{ marginTop: "1rem" }}
                   disabled={loading}
                 >
-                  Cadastrar
+                  Adicionar Livro
                 </button>
               </form>
-             
             </>
           ) : (
             <>
-              <div className="alert alert-success">
-                Livro adicionado!
-              </div>
+              <div className="alert alert-success">Livro adicionado!</div>
               <Link to="/">
                 <button
                   className="btn btn-primary"
@@ -103,6 +199,7 @@ const [Year, setYear] = useState("");
             </>
           )}
         </fieldset>
+        <LinkBack loading={loading} to="/" />
       </main>
     </div>
   );

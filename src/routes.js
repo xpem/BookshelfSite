@@ -7,6 +7,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./pages/User/ForgotPassword";
 import UpdateUser from "./pages/User/UpdateUser";
 import InsertBook from "./pages/Books/InsertBook";
+import BookList from "./pages/Books/BooksList";
 
 function Routes() {
   return (
@@ -19,6 +20,7 @@ function Routes() {
       <Route exact path="/InsertUser" component={InsertUser} />
       <Route exact path="/ForgotPassword" component={ForgotPassword} />
       <Route exact path="/InsertBook" component={InsertBook} />
+      <Route exact path="/BookList" component={BookList} />
     </BrowserRouter>
   );
 }
