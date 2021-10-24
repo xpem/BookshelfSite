@@ -83,7 +83,7 @@ function Login() {
         >
           <br />
           Precisa criar uma conta?{" "}
-          <Link to="/CreateUser"> Acesse aqui para criar sua conta!</Link>
+          <Link to="/InsertUser"> Acesse aqui para criar sua conta!</Link>
           <br />
           Esqueceu sua senha?{" "}
           <Link to="/ForgotPassword"> Acesse aqui para recuperar senha!</Link>

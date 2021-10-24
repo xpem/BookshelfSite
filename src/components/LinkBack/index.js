@@ -5,8 +5,7 @@ import "./styles.css";
 
 //arrowback to
 function LinkBack({ loading, to }) {
-    console.log(to)
-  return (
+  return (    
     <Link className="linkArrowBack" to={to} disabled={loading}>
       <img src={SvgArrowBack} alt="Back"></img>
     </Link>

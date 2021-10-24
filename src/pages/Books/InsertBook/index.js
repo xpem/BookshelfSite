@@ -6,13 +6,14 @@ import "./styles.css";
 import LinkBack from "../../../components/LinkBack";
 import Select from "react-select";
 import ReactStars from "react-rating-stars-component";
+import Textarea from "../../../components/TextArea";
 
 export default function InsertBook() {
   //default form vars
   const [error, setError] = useState("");
   const [Continue, setContinue] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [FieldsetRate, setFieldsetRate] = useState(false);
   //
   const [Title, setTitle] = useState("");
   const [SubTitle, setSubtitle] = useState("");
@@ -23,6 +24,8 @@ export default function InsertBook() {
   const [Genre, setGenre] = useState("");
   const [Isbn, setIsbn] = useState("");
   const [Rate, setRate] = useState(0);
+  const [Comment, setComment] = useState("");
+  const [Situation, setSituation] = useState("");
 
   //select itens temp
   const options = [
@@ -163,17 +166,55 @@ export default function InsertBook() {
                 >
                   <h3 style={{ padding: ".5rem" }}>Situação</h3>
                   <div style={{ width: "200px", fontSize: "15px" }}>
-                    <Select options={options} styles={{ color: "black" }} />
+                    <Select
+                      options={options}
+                      styles={{ color: "black" }}
+                      onChange={(e) => {
+                        console.log(e.value);
+                        setSituation(e.value);
+
+                        //case read set fildset rate visibility true
+                        if (e.value == 3) {
+                          setFieldsetRate(true);
+                        } else {
+                          setFieldsetRate(false);
+                        }
+                      }}
+                    />
                   </div>
-                  <fieldset style={{ margin: "1rem", padding: "1rem",fontSize: "20px" }}>
-                    <p>Avaliação pessoal: {Rate} de 5</p>
-                  <ReactStars
-                    count={5}
-                    onChange={setRate}
-                    size={24}
-                    activeColor="black"
-                  />
-                  </fieldset>
+                  {FieldsetRate ? (
+                    <fieldset
+                      style={{
+                        margin: "1rem",
+                        padding: "1rem",
+                        fontSize: "20px",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{ display: "grid", justifyContent: "center" }}
+                      >
+                        <p>Avaliação pessoal: {Rate} de 5</p>
+                        <ReactStars
+                          count={5}
+                          onChange={setRate}
+                          size={24}
+                          activeColor="black"
+                        />
+                      </div>
+                      <br />
+                      <Textarea
+                        name="Comment"
+                        label="*Comentários"
+                        resize="vertical"
+                        onChange={(e) => {
+                          setComment(e.target.value);
+                        }}
+                      />
+                    </fieldset>
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <button
                   className="btn btn-primary"

@@ -32,17 +32,24 @@ export default function InsertUser() {
       setLoading(true);
       setContinue(false);
 
-      //cria o usuário
-      var newuser = await signup(email, password);
-      console.log(newuser.user.uid);
-
-      //var uid = "jeGy9cvZ2BR0rmUzNxTxBih6j862";
-
-      //salva o perfil do usuário
-      var resp = CreateUserProfile(name, email, newuser.user.uid);
-      console.log(resp);
-
-      setContinue(true);
+      await GetUserProfile(name).then((resp) => {
+        console.log(resp);
+        if (resp && resp.length > 0) {
+          console.log(resp[0].name);
+          alert("Nome já cadastrado");
+        } else {
+          //cria o usuário
+          signup(email, password).then((newuser) => {
+            console.log(newuser.user.uid);
+            // //var uid = "jeGy9cvZ2BR0rmUzNxTxBih6j862";
+            //salva o perfil do usuário
+            CreateUserProfile(name, email, newuser.user.uid).then((resp) => {
+              console.log(resp);
+              setContinue(true);
+            });
+          });
+        }
+      });
     } catch {
       setError("Falha ao criar a conta.");
     }
@@ -87,15 +94,18 @@ export default function InsertUser() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  minLength="6"
                   required
                 />
                 <InputFunction
                   type="password"
                   name="password"
                   label="Confirme sua senha"
+               
                   onChange={(e) => {
                     setPasswordConfirm(e.target.value);
                   }}
+                  minLength="6"
                   required
                 />
                 <button
@@ -108,13 +118,13 @@ export default function InsertUser() {
                 </button>
               </form>
               <p
-          style={{
-            padding: "1rem",
-            fontSize: "1.5rem",
-            fontStyle: "italic",
-            color: "#383838",
-          }}
-        >
+                style={{
+                  padding: "1rem",
+                  fontSize: "1.5rem",
+                  fontStyle: "italic",
+                  color: "#383838",
+                }}
+              >
                 Já tem uma conta? <Link to="/Login"> Acesse aqui!</Link>
               </p>
             </>
@@ -138,4 +148,3 @@ export default function InsertUser() {
     </div>
   );
 }
- 

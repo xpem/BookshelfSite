@@ -1,28 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
 
-// export async function GetUserProfile(uid) {
-//   var data = [];
-//   try {
-//     db.ref("UsersBeta").orderByChild("uid").equalTo(uid).once("value", (snapshot) => {
-//       if (snapshot != null) {
-//         snapshot.forEach((childSnapshot) => {
-//           data.push({
-//             id: childSnapshot.key,
-//             ...childSnapshot.val(),
-//           });
-//         });
-     
-//         console.log(data);
-//       }else{
-//         console.log("tabela nula")
-//       }
-//       return data;
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
+export async function GetUserProfile(name) {
+  var data = [];
+  try {
+   await db.ref("UsersBeta").orderByChild("name").equalTo(name).once("value", (snapshot) => {
+      if (snapshot != null) {
+        snapshot.forEach((childSnapshot) => {
+          data.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val(),
+          });
+        });     
+      }else{
+        console.log("tabela nula")
+      }  
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+}
 
 export async function CreateUserProfile(name, email, uid) {
   await db
