@@ -44,6 +44,44 @@ export default function InsertBook() {
       setError("");
       setLoading(true);
       setContinue(false);
+
+      var vSituationBook
+
+      //build situation book object
+      if (Rate > 0) {
+        var vRate;
+        var vComment;
+        if (Situation === 3) {
+          vRate = Rate;
+          vComment = Comment;
+        } else {
+          vRate = 0;
+          vComment = "";
+        }
+
+        vSituationBook = {
+          Situation: Situation,
+          Rate: vRate,
+          Comment: vComment,
+        };
+      }
+
+      //build book object
+      var Book = {
+        Title: Title,
+        SubTitle: SubTitle,
+        Volume: Volume,
+        Year: Year,
+        Authors: Authors,
+        Pages: Pages,
+        Genre: Genre,
+        Isbn: Isbn,
+        BookSituation: vSituationBook
+      };
+      //
+
+      console.log(Book)
+
       setContinue(true);
     } catch {
       setError("Falha ao criar o livro.");
@@ -180,6 +218,7 @@ export default function InsertBook() {
                           setFieldsetRate(false);
                         }
                       }}
+                      required
                     />
                   </div>
                   {FieldsetRate ? (
