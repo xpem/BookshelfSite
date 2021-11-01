@@ -7,6 +7,7 @@ import LinkBack from "../../../components/LinkBack";
 import Select from "react-select";
 import ReactStars from "react-rating-stars-component";
 import Textarea from "../../../components/TextArea";
+import { CreateBook } from "../../../controllers/BookController";
 
 export default function InsertBook() {
   //default form vars
@@ -14,6 +15,7 @@ export default function InsertBook() {
   const [Continue, setContinue] = useState(false);
   const [loading, setLoading] = useState(false);
   const [FieldsetRate, setFieldsetRate] = useState(false);
+  const [ConfirmMessage, setConfirmMessage] = useState("");
   //
   const [Title, setTitle] = useState("");
   const [SubTitle, setSubtitle] = useState("");
@@ -45,13 +47,13 @@ export default function InsertBook() {
       setLoading(true);
       setContinue(false);
 
-      var vSituationBook
+      var vSituationBook;
 
       //build situation book object
-      if (Rate > 0) {
+      if (Situation > 0) {
         var vRate;
         var vComment;
-        if (Situation === 3) {
+        if (Situation == 3) {
           vRate = Rate;
           vComment = Comment;
         } else {
@@ -64,6 +66,10 @@ export default function InsertBook() {
           Rate: vRate,
           Comment: vComment,
         };
+
+        setConfirmMessage("Livro e avaliação Cadastratos");
+      } else {
+        setConfirmMessage("Livro Cadastrado");
       }
 
       //build book object
@@ -76,11 +82,14 @@ export default function InsertBook() {
         Pages: Pages,
         Genre: Genre,
         Isbn: Isbn,
-        BookSituation: vSituationBook
+        BookSituation: vSituationBook,
       };
+      
       //
+      console.log(Book);
 
-      console.log(Book)
+      //create book in firebase
+      CreateBook(Book)
 
       setContinue(true);
     } catch {
@@ -208,7 +217,6 @@ export default function InsertBook() {
                       options={options}
                       styles={{ color: "black" }}
                       onChange={(e) => {
-                        console.log(e.value);
                         setSituation(e.value);
 
                         //case read set fildset rate visibility true
