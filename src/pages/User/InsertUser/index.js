@@ -101,7 +101,6 @@ export default function InsertUser() {
                   type="password"
                   name="password"
                   label="Confirme sua senha"
-               
                   onChange={(e) => {
                     setPasswordConfirm(e.target.value);
                   }}

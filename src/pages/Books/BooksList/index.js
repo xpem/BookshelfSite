@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { GetBookBySituation } from "../../../controllers/BookController";
 import "./styles.css";
 
 export default function BookList() {
+   //default form vars
+   const [error, setError] = useState("");
+
+var response = GetBookBySituation()
+
   return (
     <div>
       <div className="Main-Frame">

@@ -8,6 +8,8 @@ import Select from "react-select";
 import ReactStars from "react-rating-stars-component";
 import Textarea from "../../../components/TextArea";
 import { CreateBook } from "../../../controllers/BookController";
+import { useAuth } from "../../../contexts/AuthContext";
+import moment from "moment";
 
 export default function InsertBook() {
   //default form vars
@@ -16,6 +18,10 @@ export default function InsertBook() {
   const [loading, setLoading] = useState(false);
   const [FieldsetRate, setFieldsetRate] = useState(false);
   const [ConfirmMessage, setConfirmMessage] = useState("");
+
+  //user
+  const { currentUser } = useAuth();
+
   //
   const [Title, setTitle] = useState("");
   const [SubTitle, setSubtitle] = useState("");
@@ -73,26 +79,49 @@ export default function InsertBook() {
       }
 
       //build book object
-      var Book = {
-        Title: Title,
-        SubTitle: SubTitle,
-        Volume: Volume,
-        Year: Year,
-        Authors: Authors,
-        Pages: Pages,
-        Genre: Genre,
-        Isbn: Isbn,
-        BookSituation: vSituationBook,
-      };
-      
-      //
-      console.log(Book);
+      // var Book = {
+      //   Authors: Authors,
+      //   BookSituation: vSituationBook,
+      //   Genre: Genre,
+      //   Inactive: false,
+      //   Isbn: Isbn,
+      //   BookKey: "",
+      //   LastUpdate:  moment().format("YYYY-MM-DDThh:mm:ss"),
+      //   Pages: Pages,
+      //   SubTitle: SubTitle,
+      //   Title: Title,
+      //   UserKey: currentUser.uid,
+      //   Volume: Volume,
+      //   Year: Year,
+      // };
+
+      // console.log(Book);
+      console.log(currentUser);
+
+      var lastUpdate = moment().format("YYYY-MM-DDThh:mm:ss");
+      //  Moment.format("YYYY-MM-DD") + "T" + Moment.format("hh:mm:ss");
+      console.log(lastUpdate);
 
       //create book in firebase
-      CreateBook(Book)
+      CreateBook(
+        Authors,
+        vSituationBook,
+        Genre,
+        false,
+        Isbn,
+        "",
+        lastUpdate,
+        Pages,
+        SubTitle,
+        Title,
+        currentUser.uid,
+        Volume,
+        Year
+      );
 
       setContinue(true);
-    } catch {
+    } catch (error) {
+      console.log(error);
       setError("Falha ao criar o livro.");
     }
 

@@ -5,6 +5,7 @@ create-react-app my-app
 npm i react-router-dom @types/react-router-dom axios
 npm i firebase
 npm i --save react-select
+npm install --save moment react-moment
 
 icones obtidos em:
 https://fonts.google.com/icons

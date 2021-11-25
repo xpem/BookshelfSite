@@ -30,6 +30,7 @@ function MainPage() {
 
   //para efeito de testes, imprime o current email logado.
   if (currentUser) {
+    console.log(currentUser);
     console.log(currentUser.Email);
   }
 
