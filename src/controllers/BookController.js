@@ -5,7 +5,7 @@ export async function CreateBook(
   Authors,
   BooksSituations,
   Genre,
-  Inactive,
+  Inativo,
   Isbn,
   Key,
   LastUpdate,
@@ -22,7 +22,7 @@ export async function CreateBook(
       Authors,
       BooksSituations,
       Genre,
-      Inactive,
+      Inativo,
       Isbn,
       Key,
       LastUpdate,
@@ -48,8 +48,6 @@ export async function GetBookBySituation(userKey, situation, searchText) {
       .ref("BooksBeta")
       .orderByChild("UserKey")
       .equalTo(userKey)
-      .orderByChild("situation")
-      .equalTo(situation)
       .once("value", (snapshot) => {
         if (snapshot != null) {
           snapshot.forEach((childSnapshot) => {
