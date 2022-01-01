@@ -3,7 +3,7 @@ import format_list_bulleted from "../../assets/icons/format_list_bulleted.svg";
 import auto_stories from "../../assets/icons/auto_stories.svg";
 import checklist from "../../assets/icons/checklist.svg";
 import collections_bookmark from "../../assets/icons/collections_bookmark.svg";
-
+import { GetBooks } from "../../controllers/BookController";
 import archive from "../../assets/icons/inventory.svg";
 import sgvlogout from "../../assets/icons/logout.svg";
 import next from "../../assets/icons/arrow_forward.svg";
@@ -13,10 +13,10 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 function MainPage() {
-  const totals = [10, 12, 14, 16];
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
-  const history = useHistory();
+  const history = useHistory(); 
+  const [totals, setTotals] = useState([])
 
   async function handleLogOut() {
     try {
@@ -31,13 +31,33 @@ function MainPage() {
   //para efeito de testes, imprime o current email logado.
   if (currentUser) {
     console.log(currentUser);
-    console.log(currentUser.Email);
+    console.log(currentUser.email);
   }
+
+  function SetTotals(books) {
+    var vIllRead = 0;
+    var vReading = 0;
+    books.map((book) => {
+      if (book.BooksSituations.Situation == 1) {
+        console.log("vou ler:" + vIllRead);
+        vIllRead = vIllRead + 1;     
+      }
+      if (book.BooksSituations.Situation == 2) {
+        console.log("vou ler:" + vReading);
+        vReading = vReading + 1;     
+      }
+    });
+    setTotals([ vIllRead,vReading]);
+  }
+
+  useEffect(() => {
+    GetBooks(currentUser.uid).then((d) => SetTotals(d));
+  }, []);
 
   return (
     <div>
       <div className="Main-Frame">
-        <Link to="/BookList" className="Link-Card-Item" >
+        <Link to="/BookList" className="Link-Card-Item">
           <div className="Card-Item">
             <table style={{ width: "100%" }}>
               <tbody>
@@ -123,7 +143,7 @@ function MainPage() {
                   </table>
                 </td>
                 <td style={{ width: "auto" }}>
-                  <h1>{totals[2]}</h1>
+                  <h1>{}</h1>
                 </td>
                 <td style={{ width: "30px" }}>
                   <img src={next} alt="Next"></img>
@@ -156,7 +176,7 @@ function MainPage() {
                   </table>
                 </td>
                 <td style={{ width: "auto" }}>
-                  <h1>{totals[3]}</h1>
+                  <h1>{}</h1>
                 </td>
                 <td style={{ width: "30px" }}>
                   <img src={next} alt="Next"></img>

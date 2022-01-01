@@ -41,7 +41,7 @@ export async function CreateBook(
     });
 }
 
-export async function GetBookBySituation(userKey, situation, searchText) {
+export async function GetBooks(userKey) {
   var data = [];
   try {
     await db
@@ -63,32 +63,6 @@ export async function GetBookBySituation(userKey, situation, searchText) {
   } catch (err) {
     console.log(err);
   }
+  console.log(data);
   return data;
 }
-
-// export async function GetBookByTitleAndSubtitle(Title, Subtitle) {
-//   var data = [];
-//   try {
-//     await db
-//       .ref("UsersBeta")
-//       .orderByChild("Title")
-//       .equalTo(Title)
-//       .orderByChild("Subtitle")
-//       .equalTo(Subtitle)
-//       .once("value", (snapshot) => {
-//         if (snapshot != null) {
-//           snapshot.forEach((childSnapshot) => {
-//             data.push({
-//               id: childSnapshot.key,
-//               ...childSnapshot.val(),
-//             });
-//           });
-//         } else {
-//           console.log("tabela nula");
-//         }
-//       });
-//   } catch (err) {
-//     console.log(err);
-//   }
-//   return data;
-// }

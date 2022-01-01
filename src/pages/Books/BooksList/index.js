@@ -1,46 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { GetBookBySituation } from "../../../controllers/BookController";
+import { GetBooks } from "../../../controllers/BookController";
 import { useAuth } from "../../../contexts/AuthContext";
+import BookCard from "../../../components/BookCard";
 
 import "./styles.css";
 
 export default function BookList() {
-
   //default form vars
   const [error, setError] = useState("");
 
   //user
-  const { currentUser } = useAuth();
+  const { currentUser, currentUserProfile } = useAuth();
+  const [Books, setBooks] = useState([]);
+  const [Situation, setSituation] = useState(0);
 
-  GetBooks(currentUser.uid, "1", "");
+  useEffect(() => {
+    setSituation(1);
+    console.log(currentUser);
+    console.log(currentUserProfile);
+    GetBooksList(currentUser.uid);
+  }, []);
 
-  async function GetBooks(userKey, situation, searchText){
-    var books = await GetBookBySituation(userKey, situation, searchText);
-    console.log(books);
+  async function GetBooksList(userKey) {
+    console.log("teste");
+    await GetBooks(userKey).then((d) => setBooks(d));
   }
-
 
   return (
     <div>
       <div className="Main-Frame">
-        <div className="Card-Book">
-          <p className="p-title">
-            <b>Teste de título</b>
-          </p>
-          <p className="p-subtitle">teste de subtítulo; Vol.: 13</p>
-          <p className="p-authoryear">Nome do Autor; Ano 2020</p>
-          <p className="p-pages">Páginas: 378</p>
-          <p className="p-rate">Avaliação pessoal: 3 de 5</p>
-        </div>
-        <div className="Card-Book">
-          <p className="p-title">
-            <b>Teste de título</b>
-          </p>
-          <p className="p-subtitle">teste de subtítulo; Vol.: 13</p>
-          <p className="p-authoryear">Nome do Autor; Ano 2020</p>
-          <p className="p-pages">Páginas: 378</p>
-          <p className="p-rate">Avaliação pessoal: 3 de 5</p>
-        </div>
+        {Books.map((bookItem) => {
+          if (bookItem.BooksSituations.Situation == 1) {
+            return (
+              <BookCard
+                Title={bookItem.Title}
+                SubTitle={bookItem.SubTitle}
+                Volume={bookItem.Volume}
+                Authors={bookItem.Authors}
+                Year={bookItem.Year}
+                Pages={bookItem.Pages}
+                Rate={bookItem.Rate}
+              ></BookCard>
+            );
+          }
+        })}
       </div>
     </div>
   );
