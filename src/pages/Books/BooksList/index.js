@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GetBooks } from "../../../controllers/BookController";
 import { useAuth } from "../../../contexts/AuthContext";
 import BookCard from "../../../components/BookCard";
+import { useParams } from "react-router-dom";
 
 import "./styles.css";
 
@@ -12,10 +13,8 @@ export default function BookList() {
   //user
   const { currentUser, currentUserProfile } = useAuth();
   const [Books, setBooks] = useState([]);
-  const [Situation, setSituation] = useState(0);
-
+  const { Situation } = useParams();
   useEffect(() => {
-    setSituation(1);
     console.log(currentUser);
     console.log(currentUserProfile);
     GetBooksList(currentUser.uid);
@@ -30,7 +29,7 @@ export default function BookList() {
     <div>
       <div className="Main-Frame">
         {Books.map((bookItem) => {
-          if (bookItem.BooksSituations.Situation == 1) {
+          if (bookItem.BooksSituations.Situation == Situation) {
             return (
               <BookCard
                 Title={bookItem.Title}

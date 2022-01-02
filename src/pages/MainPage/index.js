@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 function MainPage() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
-  const history = useHistory(); 
-  const [totals, setTotals] = useState([])
+  const history = useHistory();
+  const [totals, setTotals] = useState([]);
 
   async function handleLogOut() {
     try {
@@ -37,17 +37,27 @@ function MainPage() {
   function SetTotals(books) {
     var vIllRead = 0;
     var vReading = 0;
+    var vRead = 0;
+    var vInterrupted = 0;
     books.map((book) => {
       if (book.BooksSituations.Situation == 1) {
         console.log("vou ler:" + vIllRead);
-        vIllRead = vIllRead + 1;     
+        vIllRead = vIllRead + 1;
       }
       if (book.BooksSituations.Situation == 2) {
-        console.log("vou ler:" + vReading);
-        vReading = vReading + 1;     
+        console.log("lendo:" + vReading);
+        vReading = vReading + 1;
+      }
+      if (book.BooksSituations.Situation == 3) {
+        console.log("lido:" + vRead);
+        vRead = vRead + 1;
+      }
+      if (book.BooksSituations.Situation == 4) {
+        console.log("Interrompido:" + vInterrupted);
+        vInterrupted = vInterrupted + 1;
       }
     });
-    setTotals([ vIllRead,vReading]);
+    setTotals([vIllRead, vReading, vRead, vInterrupted]);
   }
 
   useEffect(() => {
@@ -57,7 +67,8 @@ function MainPage() {
   return (
     <div>
       <div className="Main-Frame">
-        <Link to="/BookList" className="Link-Card-Item">
+        {/* card link para vou ler */}
+        <Link to={`/BookList/${1}`} className="Link-Card-Item">
           <div className="Card-Item">
             <table style={{ width: "100%" }}>
               <tbody>
@@ -92,36 +103,39 @@ function MainPage() {
             </table>
           </div>
         </Link>
-        <div className="Card-Item">
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td style={{ width: "70px" }}>
-                  <table>
-                    <tbody>
-                      <tr style={{ display: "flex" }}>
-                        <td style={{ height: "36px" }}>
-                          <img src={auto_stories} alt="Reading"></img>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <p className="label-icon">Lendo</p>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td style={{ width: "auto" }}>
-                  <h1>{totals[1]}</h1>
-                </td>
-                <td style={{ width: "30px" }}>
-                  <img src={next} alt="Next"></img>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {/* card link para lendo */}
+        <Link to={`/BookList/${2}`} className="Link-Card-Item">
+          <div className="Card-Item">
+            <table style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <td style={{ width: "70px" }}>
+                    <table>
+                      <tbody>
+                        <tr style={{ display: "flex" }}>
+                          <td style={{ height: "36px" }}>
+                            <img src={auto_stories} alt="Reading"></img>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p className="label-icon">Lendo</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style={{ width: "auto" }}>
+                    <h1>{totals[1]}</h1>
+                  </td>
+                  <td style={{ width: "30px" }}>
+                    <img src={next} alt="Next"></img>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Link>
         <div className="Card-Item">
           <table style={{ width: "100%" }}>
             <tbody>
@@ -143,7 +157,7 @@ function MainPage() {
                   </table>
                 </td>
                 <td style={{ width: "auto" }}>
-                  <h1>{}</h1>
+                  <h1>{totals[2]}</h1>
                 </td>
                 <td style={{ width: "30px" }}>
                   <img src={next} alt="Next"></img>
@@ -176,7 +190,7 @@ function MainPage() {
                   </table>
                 </td>
                 <td style={{ width: "auto" }}>
-                  <h1>{}</h1>
+                  <h1>{totals[3]}</h1>
                 </td>
                 <td style={{ width: "30px" }}>
                   <img src={next} alt="Next"></img>
