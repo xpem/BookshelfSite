@@ -136,69 +136,75 @@ function MainPage() {
             </table>
           </div>
         </Link>
-        <div className="Card-Item">
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td style={{ width: "70px" }}>
-                  <table>
-                    <tbody>
-                      <tr style={{ display: "flex" }}>
-                        <td style={{ height: "36px" }}>
-                          <img src={checklist} alt="Read"></img>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <p className="label-icon">Lidos</p>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td style={{ width: "auto" }}>
-                  <h1>{totals[2]}</h1>
-                </td>
-                <td style={{ width: "30px" }}>
-                  <img src={next} alt="Next"></img>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="Card-Item">
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td style={{ width: "70px" }}>
-                  <table>
-                    <tbody>
-                      <tr style={{ display: "flex" }}>
-                        <td style={{ height: "36px" }}>
-                          <img
-                            src={collections_bookmark}
-                            alt="Interrupted"
-                          ></img>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <p className="label-icon">Suspensos</p>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td style={{ width: "auto" }}>
-                  <h1>{totals[3]}</h1>
-                </td>
-                <td style={{ width: "30px" }}>
-                  <img src={next} alt="Next"></img>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {/* card link para lido */}
+        <Link to={`/BookList/${3}`} className="Link-Card-Item">
+          <div className="Card-Item">
+            <table style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <td style={{ width: "70px" }}>
+                    <table>
+                      <tbody>
+                        <tr style={{ display: "flex" }}>
+                          <td style={{ height: "36px" }}>
+                            <img src={checklist} alt="Read"></img>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p className="label-icon">Lidos</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style={{ width: "auto" }}>
+                    <h1>{totals[2]}</h1>
+                  </td>
+                  <td style={{ width: "30px" }}>
+                    <img src={next} alt="Next"></img>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Link>
+        {/* card link para lido */}
+        <Link to={`/BookList/${3}`} className="Link-Card-Item">
+          <div className="Card-Item">
+            <table style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <td style={{ width: "70px" }}>
+                    <table>
+                      <tbody>
+                        <tr style={{ display: "flex" }}>
+                          <td style={{ height: "36px" }}>
+                            <img
+                              src={collections_bookmark}
+                              alt="Interrupted"
+                            ></img>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p className="label-icon">Suspensos</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style={{ width: "auto" }}>
+                    <h1>{totals[3]}</h1>
+                  </td>
+                  <td style={{ width: "30px" }}>
+                    <img src={next} alt="Next"></img>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Link>
       </div>
       <div className="Main-Frame">
         <div className="grid-btns">
@@ -207,7 +213,9 @@ function MainPage() {
               Adicionar Livro
             </button>
           </Link>
-          <button className="grid-right btn btn-primary">Arquivo</button>
+          <Link to={`/BookList/${4}`}>
+            <button className="grid-right btn btn-primary">Arquivo</button>
+          </Link>
         </div>
         <button
           className="btn btn-secondary icon-button"

@@ -1,0 +1,48 @@
+.p-title {
+  font-size: 3.5rem;
+  align-self: flex-start;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.p-subtitle {
+  font-size: 2rem;
+  align-self: flex-start;
+  font-style: oblique;
+  margin-bottom: 3px;
+  text-align: center;
+}
+
+.Main-Frame{
+  width: 100%;
+}
+
+.p-label {
+  font-size: 1.5rem;
+  align-self: flex-start;
+  font-weight: bold;
+  color: gray;
+  margin-bottom: 3px;
+}
+
+.p-text {
+  font-size: 2rem;
+  align-self: flex-start;
+  color: black;
+  margin-bottom: 3px;
+}
+
+.grid-one-row-two-columns {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: "grid-left grid-right";
+}
+
+.grid-left {
+  grid-area: "grid-left";
+}
+.grid-right {
+  grid-area: "grid-right";
+}

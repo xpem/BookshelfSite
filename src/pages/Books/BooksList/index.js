@@ -3,6 +3,7 @@ import { GetBooks } from "../../../controllers/BookController";
 import { useAuth } from "../../../contexts/AuthContext";
 import BookCard from "../../../components/BookCard";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./styles.css";
 
@@ -14,6 +15,7 @@ export default function BookList() {
   const { currentUser, currentUserProfile } = useAuth();
   const [Books, setBooks] = useState([]);
   const { Situation } = useParams();
+  
   useEffect(() => {
     console.log(currentUser);
     console.log(currentUserProfile);
@@ -29,17 +31,26 @@ export default function BookList() {
     <div>
       <div className="Main-Frame">
         {Books.map((bookItem) => {
-          if (bookItem.BooksSituations.Situation == Situation) {
+          console.log(bookItem.id);
+          if (
+            bookItem.BooksSituations.Situation == Situation ||
+            Situation == 4
+          ) {
             return (
-              <BookCard
-                Title={bookItem.Title}
-                SubTitle={bookItem.SubTitle}
-                Volume={bookItem.Volume}
-                Authors={bookItem.Authors}
-                Year={bookItem.Year}
-                Pages={bookItem.Pages}
-                Rate={bookItem.Rate}
-              ></BookCard>
+              <Link
+                to={`/BookDetail/${bookItem.id}`}
+                className="Link-Card-Item"
+              >
+                <BookCard
+                  Title={bookItem.Title}
+                  SubTitle={bookItem.SubTitle}
+                  Volume={bookItem.Volume}
+                  Authors={bookItem.Authors}
+                  Year={bookItem.Year}
+                  Pages={bookItem.Pages}
+                  Rate={bookItem.Rate}
+                ></BookCard>
+              </Link>
             );
           }
         })}

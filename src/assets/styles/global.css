@@ -116,6 +116,10 @@ legend {
   background-color: #0f421b;
 }
 
+.Link-Card-Item {
+  text-decoration: none;
+}
+
 /*
 .card {
   position: relative;

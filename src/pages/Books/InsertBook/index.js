@@ -240,7 +240,7 @@ export default function InsertBook() {
                     color: "black",
                   }}
                 >
-                  <h3 style={{ padding: ".5rem" }}>Situação</h3>
+                  <h5 style={{ padding: ".5rem" }}>Situação</h5>
                   <div style={{ width: "200px", fontSize: "15px" }}>
                     <Select
                       options={options}

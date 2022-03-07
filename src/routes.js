@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/User/ForgotPassword";
 import UpdateUser from "./pages/User/UpdateUser";
 import InsertBook from "./pages/Books/InsertBook";
 import BookList from "./pages/Books/BooksList";
+import BookDetail from "./pages/Books/BookDetail";
 
 function Routes() {
   return (
@@ -21,6 +22,7 @@ function Routes() {
       <Route exact path="/ForgotPassword" component={ForgotPassword} />
       <Route exact path="/InsertBook" component={InsertBook} />
       <Route exact path="/BookList/:Situation" component={BookList} />
+      <Route exact path="/BookDetail/:BookId" component={BookDetail} />
     </BrowserRouter>
   );
 }
