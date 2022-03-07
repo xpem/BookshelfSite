@@ -66,3 +66,31 @@ export async function GetBooks(userKey) {
   console.log(data);
   return data;
 }
+
+export async function GetBook(userKey, bookId) {
+  var data = [];
+  try {
+    await db
+      .ref("BooksBeta")
+      .orderByChild("UserKey")
+      .equalTo(userKey)
+      .once("value", (snapshot) => {
+        if (snapshot != null) {
+          snapshot.forEach((childSnapshot) => {
+            if (childSnapshot.key === bookId) {
+              data.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val(),
+              });
+            }
+          });
+        } else {
+          console.log("tabela nula");
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  console.log(data);
+  return data;
+}

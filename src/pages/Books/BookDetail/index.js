@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import Textarea from "../../../components/TextArea";
 import ReactStars from "react-rating-stars-component";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import { GetBook } from "../../../controllers/BookController";
 import "./styles.css";
 
 export default function BookDetail() {
@@ -12,6 +15,15 @@ export default function BookDetail() {
   const [FieldsetRate, setFieldsetRate] = useState(false);
   const [loading, setLoading] = useState(false);
   //
+
+  //user
+  const { currentUser, currentUserProfile } = useAuth();
+
+  //params
+  const { BookId } = useParams();
+
+  //
+  const [Book, setBook] = useState([]);
   const [Situation, setSituation] = useState("");
   const [Rate, setRate] = useState(0);
   const [Comment, setComment] = useState("");
@@ -25,8 +37,32 @@ export default function BookDetail() {
     { value: "4", label: "Interrompido" },
   ];
 
+  useEffect(() => {
+    console.log("BookId:" + BookId);
+    console.log(currentUser);
+    console.log(currentUserProfile);
+    GetBookItem(currentUser.uid, BookId);
+    console.log("teste book:" + Book);
+  }, []);
+
+  async function GetBookItem(userKey, bookKey) {
+    await GetBook(userKey, bookKey).then((v) => setBook(v));
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
+    try {
+      setError("");
+      setLoading(true);
+      setContinue(false);
+      //setConfirmMessage("Livro e avaliação Cadastratos");
+      setContinue(true);
+    } catch (error) {
+      console.log(error);
+      setError("Falha ao alterar a situação do livro.");
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -36,19 +72,22 @@ export default function BookDetail() {
         {!Continue ? (
           <>
             <p className="p-title">
-              <b>Título</b>
+              <b>{Book.length > 0 ? Book[0].Title : ""}</b>
             </p>
-            <p className="p-subtitle">SubTítulo; Vol.: 100</p>
+            <p className="p-subtitle">
+              {Book.length > 0 ? Book[0].SubTitle : ""}; Vol.:{" "}
+              {Book.length > 0 ? Book[0].Volume : ""}
+            </p>
             <p className="p-label">Autores:</p>
-            <p className="p-text">Nome do autor</p>
+            <p className="p-text">{Book.length > 0 ? Book[0].Authors : ""}</p>
             <div className="grid-one-row-two-columns">
               <div className="grid-left">
                 <p className="p-label">Páginas:</p>
-                <p className="p-text">999</p>
+                <p className="p-text">{Book.length > 0 ? Book[0].Pages : ""}</p>
               </div>
               <div className="grid-right">
                 <p className="p-label">Categoria:</p>
-                <p className="p-text">Suspense</p>
+                <p className="p-text">{Book.length > 0 ? Book[0].Genre : ""}</p>
               </div>
             </div>
             <hr></hr>
@@ -119,13 +158,13 @@ export default function BookDetail() {
                 style={{ marginTop: "1rem" }}
                 disabled={loading}
               >
-                Adicionar Livro
+                Alterar Situação
               </button>
             </form>
           </>
         ) : (
           <>
-            <div className="alert alert-success">Situação Alterada!</div>
+            <div className="alert alert-warning">Situação Alterada!</div>
             <Link to="/">
               <button className="btn btn-primary" style={{ marginTop: "1rem" }}>
                 Continuar
