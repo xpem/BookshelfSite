@@ -41,6 +41,48 @@ export async function CreateBook(
     });
 }
 
+//update book in firebase
+export async function UpdateBook(
+  Id,
+  Authors,
+  BooksSituations,
+  Genre,
+  Inativo,
+  Isbn,
+  Key,
+  LastUpdate,
+  Pages,
+  SubTitle,
+  Title,
+  UserKey,
+  Volume,
+  Year
+) {
+  await db
+    .ref("BooksBeta").child(Id)
+    .update({
+      Authors,
+      BooksSituations,
+      Genre,
+      Inativo,
+      Isbn,
+      Key,
+      LastUpdate,
+      Pages,
+      SubTitle,
+      Title,
+      UserKey,
+      Volume,
+      Year,
+    })
+    .then(function () {
+      console.log("Atualizado!");
+    })
+    .catch(function (error) {
+      console.log("erro ao atualizar" + error);
+    });
+}
+
 export async function GetBooks(userKey) {
   var data = [];
   try {

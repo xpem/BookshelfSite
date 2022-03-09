@@ -75,6 +75,11 @@ export default function InsertBook() {
 
         setConfirmMessage("Livro e avaliação Cadastratos");
       } else {
+        vSituationBook = {
+          Situation: 0,
+          Rate: 0,
+          Comment: "",
+        };
         setConfirmMessage("Livro Cadastrado");
       }
 

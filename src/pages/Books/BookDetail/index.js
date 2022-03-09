@@ -5,7 +5,8 @@ import Textarea from "../../../components/TextArea";
 import ReactStars from "react-rating-stars-component";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import { GetBook } from "../../../controllers/BookController";
+import { GetBook, UpdateBook } from "../../../controllers/BookController";
+import moment from "moment";
 import "./styles.css";
 
 export default function BookDetail() {
@@ -24,7 +25,8 @@ export default function BookDetail() {
 
   //
   const [Book, setBook] = useState([]);
-  const [Situation, setSituation] = useState("");
+  const [Situation, setSituation] = useState(0);
+  const [Situation2, setSituation2] = useState("");
   const [Rate, setRate] = useState(0);
   const [Comment, setComment] = useState("");
 
@@ -37,16 +39,18 @@ export default function BookDetail() {
     { value: "4", label: "Interrompido" },
   ];
 
-  useEffect(() => {
-    console.log("BookId:" + BookId);
-    console.log(currentUser);
-    console.log(currentUserProfile);
-    GetBookItem(currentUser.uid, BookId);
-    console.log("teste book:" + Book);
+  useEffect(async () => {
+    await GetBookItem(currentUser.uid, BookId).then(console.log("teste atribuição:" + Situation2))
   }, []);
 
   async function GetBookItem(userKey, bookKey) {
-    await GetBook(userKey, bookKey).then((v) => setBook(v));
+    GetBook(userKey, bookKey).then((v) => BuildBookItem(v));
+  }
+
+  async function BuildBookItem(v) {
+    setBook(v);
+    setSituation(1);
+    setSituation2(v[0].BooksSituations.Situation);
   }
 
   async function handleSubmit(e) {
@@ -55,7 +59,47 @@ export default function BookDetail() {
       setError("");
       setLoading(true);
       setContinue(false);
-      //setConfirmMessage("Livro e avaliação Cadastratos");
+
+      var vSituationBook;
+
+      //build situation book object
+      if (Situation > 0) {
+        var vRate;
+        var vComment;
+        if (Situation == 3) {
+          vRate = Rate;
+          vComment = Comment;
+        } else {
+          vRate = 0;
+          vComment = "";
+        }
+
+        vSituationBook = {
+          Situation: Situation,
+          Rate: vRate,
+          Comment: vComment,
+        };
+      }
+
+      var lastUpdate = moment().format("YYYY-MM-DDThh:mm:ss");
+
+      UpdateBook(
+        Book[0].id,
+        Book[0].Authors,
+        vSituationBook,
+        Book[0].Genre,
+        false,
+        Book[0].Isbn,
+        Book[0].id,
+        lastUpdate,
+        Book[0].Pages,
+        Book[0].SubTitle,
+        Book[0].Title,
+        Book[0].UserKey,
+        Book[0].Volume,
+        Book[0].Year
+      );
+
       setContinue(true);
     } catch (error) {
       console.log(error);
@@ -109,7 +153,6 @@ export default function BookDetail() {
                     styles={{ color: "black" }}
                     onChange={(e) => {
                       setSituation(e.value);
-
                       //case read set fildset rate visibility true
                       if (e.value == 3) {
                         setFieldsetRate(true);
@@ -117,6 +160,7 @@ export default function BookDetail() {
                         setFieldsetRate(false);
                       }
                     }}
+                    value={ options.filter(({ value }) => value == Situation2)}
                     required
                   />
                 </div>
