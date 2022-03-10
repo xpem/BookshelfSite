@@ -4,24 +4,50 @@ import { useAuth } from "../../../contexts/AuthContext";
 import BookCard from "../../../components/BookCard";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Header from "../../../components/Header";
 
 import "./styles.css";
 
 export default function BookList() {
-  
   //default form vars
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //user
   const { currentUser, currentUserProfile } = useAuth();
   const [Books, setBooks] = useState([]);
   const { Situation } = useParams();
-  
+  const [HeaderText, setHeaderText] = useState("");
+
   useEffect(() => {
+    setLoading(true);
     console.log(currentUser);
     console.log(currentUserProfile);
     GetBooksList(currentUser.uid);
+
+    DefineHeaderText().then(()=> console.log(HeaderText));
+    setLoading(false);
   }, []);
+
+ async function DefineHeaderText() {
+    switch (Situation) {
+      case '0':
+        setHeaderText("Livros do arquivo");
+        return;
+      case '1':
+        setHeaderText("Livros que vou ler");
+        return;
+      case '2':
+        setHeaderText("Livros que estou lendo");
+        return;
+      case '3':
+        setHeaderText("Livros lidos");
+        return;
+      case '4':
+        setHeaderText("Livros interrompidos");
+        return;
+    }
+  }
 
   async function GetBooksList(userKey) {
     console.log("teste");
@@ -29,7 +55,8 @@ export default function BookList() {
   }
 
   return (
-    <div>
+    <>
+      <Header Label={HeaderText} loading={loading} to="/" />
       <div className="Main-Frame">
         {Books.map((bookItem) => {
           console.log(bookItem.id);
@@ -56,6 +83,6 @@ export default function BookList() {
           }
         })}
       </div>
-    </div>
+    </>
   );
 }

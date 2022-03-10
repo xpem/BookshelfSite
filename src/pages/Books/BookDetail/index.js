@@ -26,7 +26,6 @@ export default function BookDetail() {
   //
   const [Book, setBook] = useState([]);
   const [Situation, setSituation] = useState(0);
-  const [Situation2, setSituation2] = useState("");
   const [Rate, setRate] = useState(0);
   const [Comment, setComment] = useState("");
 
@@ -40,7 +39,9 @@ export default function BookDetail() {
   ];
 
   useEffect(async () => {
-    await GetBookItem(currentUser.uid, BookId).then(console.log("teste atribuição:" + Situation2))
+    await GetBookItem(currentUser.uid, BookId).then(
+      console.log("teste atribuição:" + Situation)
+    );
   }, []);
 
   async function GetBookItem(userKey, bookKey) {
@@ -49,8 +50,19 @@ export default function BookDetail() {
 
   async function BuildBookItem(v) {
     setBook(v);
-    setSituation(1);
-    setSituation2(v[0].BooksSituations.Situation);
+    setSituation(v[0].BooksSituations.Situation);
+    setRate(v[0].BooksSituations.Rate);
+    DefineFildsetRate(v[0].BooksSituations.Rate);
+    setComment(v[0].BooksSituations.Comment);
+  }
+
+  function DefineFildsetRate(v) {
+    //case read set fildset rate visibility true
+    if (v == 3) {
+      setFieldsetRate(true);
+    } else {
+      setFieldsetRate(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -105,12 +117,11 @@ export default function BookDetail() {
       console.log(error);
       setError("Falha ao alterar a situação do livro.");
     }
-
     setLoading(false);
   }
 
   return (
-    <div className="Main-Frame">
+    <div className="Main-Frame BookDetail-Main-Frame">
       {error && <div className="alert alert-warning">{error}</div>}
       <main>
         {!Continue ? (
@@ -153,14 +164,9 @@ export default function BookDetail() {
                     styles={{ color: "black" }}
                     onChange={(e) => {
                       setSituation(e.value);
-                      //case read set fildset rate visibility true
-                      if (e.value == 3) {
-                        setFieldsetRate(true);
-                      } else {
-                        setFieldsetRate(false);
-                      }
+                      DefineFildsetRate(e.value);
                     }}
-                    value={ options.filter(({ value }) => value == Situation2)}
+                    value={options.filter(({ value }) => value == Situation)}
                     required
                   />
                 </div>
@@ -176,6 +182,7 @@ export default function BookDetail() {
                     <div style={{ display: "grid", justifyContent: "center" }}>
                       <p>Avaliação pessoal: {Rate} de 5</p>
                       <ReactStars
+                        value={Rate}
                         count={5}
                         onChange={setRate}
                         size={24}
@@ -187,6 +194,7 @@ export default function BookDetail() {
                       name="Comment"
                       label="*Comentários"
                       resize="vertical"
+                      value={Comment}
                       onChange={(e) => {
                         setComment(e.target.value);
                       }}

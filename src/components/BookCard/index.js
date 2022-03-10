@@ -17,7 +17,7 @@ function BookCard({
         <b>{Title}</b>
       </p>
       <p className="p-subtitle">
-        {SubTitle}; Vol.: {Volume}
+        {SubTitle} {(SubTitle != '')? ';':''} Vol.: {Volume}
       </p>
       <p className="p-authoryear">
         {Authors}; Ano {Year}
