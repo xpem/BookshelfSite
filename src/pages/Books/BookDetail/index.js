@@ -5,7 +5,12 @@ import Textarea from "../../../components/TextArea";
 import ReactStars from "react-rating-stars-component";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import { GetBook, UpdateBook } from "../../../controllers/BookController";
+import {
+  GetBook,
+  UpdateBook,
+  DeleteBook,
+} from "../../../controllers/BookController";
+import Header from "../../../components/Header";
 import moment from "moment";
 import "./styles.css";
 
@@ -13,15 +18,17 @@ export default function BookDetail() {
   //default form vars
   const [error, setError] = useState("");
   const [Continue, setContinue] = useState(false);
+  const [Exclusion, setExclusion] = useState(false);
+  const [ConfirmDeleteBook, setConfirmDeleteBook] = useState(false);
   const [FieldsetRate, setFieldsetRate] = useState(false);
   const [loading, setLoading] = useState(false);
   //
 
   //user
   const { currentUser, currentUserProfile } = useAuth();
-
+  console.log(useParams());
   //params
-  const { BookId } = useParams();
+  const { SituationOri, BookId } = useParams();
 
   //
   const [Book, setBook] = useState([]);
@@ -39,9 +46,7 @@ export default function BookDetail() {
   ];
 
   useEffect(async () => {
-    await GetBookItem(currentUser.uid, BookId).then(
-      console.log("teste atribuição:" + Situation)
-    );
+    await GetBookItem(currentUser.uid, BookId);
   }, []);
 
   async function GetBookItem(userKey, bookKey) {
@@ -54,6 +59,7 @@ export default function BookDetail() {
     setRate(v[0].BooksSituations.Rate);
     DefineFildsetRate(v[0].BooksSituations.Rate);
     setComment(v[0].BooksSituations.Comment);
+    console.table(v);
   }
 
   function DefineFildsetRate(v) {
@@ -63,6 +69,15 @@ export default function BookDetail() {
     } else {
       setFieldsetRate(false);
     }
+  }
+
+  async function DeleteBookAsync() {
+    DeleteBook(BookId);
+  }
+
+  async function HandleConfirmDeleteBookButton(){
+    setContinue(true);
+    setConfirmDeleteBook(true);
   }
 
   async function handleSubmit(e) {
@@ -121,110 +136,179 @@ export default function BookDetail() {
   }
 
   return (
-    <div className="Main-Frame BookDetail-Main-Frame">
-      {error && <div className="alert alert-warning">{error}</div>}
-      <main>
-        {!Continue ? (
-          <>
-            <p className="p-title">
-              <b>{Book.length > 0 ? Book[0].Title : ""}</b>
-            </p>
-            <p className="p-subtitle">
-              {Book.length > 0 ? Book[0].SubTitle : ""}; Vol.:{" "}
-              {Book.length > 0 ? Book[0].Volume : ""}
-            </p>
-            <p className="p-label">Autores:</p>
-            <p className="p-text">{Book.length > 0 ? Book[0].Authors : ""}</p>
-            <div className="grid-one-row-two-columns">
-              <div className="grid-left">
-                <p className="p-label">Páginas:</p>
-                <p className="p-text">{Book.length > 0 ? Book[0].Pages : ""}</p>
-              </div>
-              <div className="grid-right">
-                <p className="p-label">Categoria:</p>
-                <p className="p-text">{Book.length > 0 ? Book[0].Genre : ""}</p>
-              </div>
-            </div>
-            <hr></hr>
-            <form onSubmit={handleSubmit}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  color: "black",
-                }}
-              >
-                <h5 style={{ padding: ".5rem", color: "black" }}>Situação</h5>
-                <div
-                  style={{ width: "200px", fontSize: "15px", color: "black" }}
-                >
-                  <Select
-                    options={options}
-                    styles={{ color: "black" }}
-                    onChange={(e) => {
-                      setSituation(e.value);
-                      DefineFildsetRate(e.value);
-                    }}
-                    value={options.filter(({ value }) => value == Situation)}
-                    required
-                  />
+    <>
+      <Header
+        Label="Detalhes do livro"
+        loading={loading}
+        to={`/BookList/${SituationOri}`}
+      />
+      <div className="Main-Frame BookDetail-Main-Frame">
+        {error && <div className="alert alert-warning">{error}</div>}
+        <main>
+          {!Continue ? (
+            <>
+              <p className="p-title">
+                <b>{Book.length > 0 ? Book[0].Title : ""}</b>
+              </p>
+              <p className="p-subtitle">
+                {Book.length > 0 ? Book[0].SubTitle : ""}; Vol.:{" "}
+                {Book.length > 0 ? Book[0].Volume : ""}
+              </p>
+              <p className="p-label">Autores:</p>
+              <p className="p-text">{Book.length > 0 ? Book[0].Authors : ""}</p>
+              <div className="grid-one-row-two-columns">
+                <div className="grid-left">
+                  <p className="p-label">Páginas:</p>
+                  <p className="p-text">
+                    {Book.length > 0 ? Book[0].Pages : ""}
+                  </p>
                 </div>
-                {FieldsetRate ? (
-                  <fieldset
+                <div className="grid-right">
+                  <p className="p-label">Categoria:</p>
+                  <p className="p-text">
+                    {Book.length > 0 ? Book[0].Genre : ""}
+                  </p>
+                </div>
+              </div>
+              <hr></hr>
+              <form onSubmit={handleSubmit}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: "black",
+                  }}
+                >
+                  <h5 style={{ padding: ".5rem", color: "black" }}>Situação</h5>
+                  <div
                     style={{
-                      margin: "1rem",
-                      padding: "1rem",
-                      fontSize: "20px",
-                      width: "100%",
+                      width: "200px",
+                      fontSize: "15px",
+                      color: "black",
                     }}
                   >
-                    <div style={{ display: "grid", justifyContent: "center" }}>
-                      <p>Avaliação pessoal: {Rate} de 5</p>
-                      <ReactStars
-                        value={Rate}
-                        count={5}
-                        onChange={setRate}
-                        size={24}
-                        activeColor="black"
-                      />
-                    </div>
-                    <br />
-                    <Textarea
-                      name="Comment"
-                      label="*Comentários"
-                      resize="vertical"
-                      value={Comment}
+                    <Select
+                      options={options}
+                      styles={{ color: "black" }}
                       onChange={(e) => {
-                        setComment(e.target.value);
+                        setSituation(e.value);
+                        DefineFildsetRate(e.value);
                       }}
+                      value={options.filter(({ value }) => value == Situation)}
+                      required
                     />
-                  </fieldset>
-                ) : (
-                  <></>
-                )}
-              </div>
+                  </div>
+                  {FieldsetRate ? (
+                    <fieldset
+                      style={{
+                        margin: "1rem",
+                        padding: "1rem",
+                        fontSize: "20px",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "grid",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <p>Avaliação pessoal: {Rate} de 5</p>
+                        <ReactStars
+                          value={Rate}
+                          count={5}
+                          onChange={setRate}
+                          size={24}
+                          activeColor="black"
+                        />
+                      </div>
+                      <br />
+                      <Textarea
+                        name="Comment"
+                        label="*Comentários"
+                        resize="vertical"
+                        value={Comment}
+                        onChange={(e) => {
+                          setComment(e.target.value);
+                        }}
+                      />
+                    </fieldset>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  style={{ marginTop: "1rem" }}
+                  disabled={loading}
+                >
+                  Alterar Situação
+                </button>
+              </form>
               <button
-                className="btn btn-primary"
-                type="submit"
-                style={{ marginTop: "1rem" }}
+                className="btn btn-danger"
                 disabled={loading}
+                onClick={() => setExclusion(true)}
               >
-                Alterar Situação
+                Excluir Livro
               </button>
-            </form>
-          </>
-        ) : (
-          <>
-            <div className="alert alert-warning">Situação Alterada!</div>
-            <Link to="/">
-              <button className="btn btn-primary" style={{ marginTop: "1rem" }}>
-                Continuar
-              </button>
-            </Link>
-          </>
-        )}
-      </main>
-    </div>
+              {Exclusion ? (
+                <>
+                  <div id="myModal" className="modal">
+                    <div className="modal-content">
+                      <span className="close">&times;</span>
+                      <div className="alert alert-warning">
+                        Deseja excluir o livro{" "}
+                        <b>{Book.length > 0 ? Book[0].Title : ""}</b>?
+                      </div>
+                      <button
+                        className="btn btn-danger"
+                        style={{ marginTop: "1rem" }}
+                        onClick={() =>
+                          DeleteBookAsync().then(() => HandleConfirmDeleteBookButton())
+                        }
+                      >
+                        Confirmar Exclusão
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ padding: "7px", color: "#fefefe" }}
+                        onClick={() => setExclusion(false)}
+                      >
+                        Voltar
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <>
+              {ConfirmDeleteBook ? (
+                <>
+                  <div className="alert alert-danger">Livro Excluido!</div>
+                </>
+              ) : (
+                <>
+                  <div className="alert alert-warning">Situação Alterada!</div>
+                </>
+              )}
+              <Link to={`/BookList/${SituationOri}`}>
+                <button
+                  className="btn btn-primary"
+                  style={{ marginTop: "1rem" }}
+                >
+                  Continuar
+                </button>
+              </Link>
+            </>
+          )}
+        </main>
+      </div>
+    </>
   );
 }

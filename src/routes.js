@@ -22,7 +22,7 @@ function Routes() {
       <Route exact path="/ForgotPassword" component={ForgotPassword} />
       <Route exact path="/InsertBook" component={InsertBook} />
       <Route exact path="/BookList/:Situation" component={BookList} />
-      <Route exact path="/BookDetail/:BookId" component={BookDetail} />
+      <Route exact path="/BookDetail/:SituationOri/:BookId" component={BookDetail} />
     </BrowserRouter>
   );
 }

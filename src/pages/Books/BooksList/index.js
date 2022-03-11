@@ -21,10 +21,7 @@ export default function BookList() {
 
   useEffect(() => {
     setLoading(true);
-    console.log(currentUser);
-    console.log(currentUserProfile);
     GetBooksList(currentUser.uid);
-
     DefineHeaderText().then(()=> console.log(HeaderText));
     setLoading(false);
   }, []);
@@ -50,7 +47,6 @@ export default function BookList() {
   }
 
   async function GetBooksList(userKey) {
-    console.log("teste");
     await GetBooks(userKey).then((d) => setBooks(d));
   }
 
@@ -66,7 +62,7 @@ export default function BookList() {
           ) {
             return (
               <Link
-                to={`/BookDetail/${bookItem.id}`}
+                to={`/BookDetail/${bookItem.BooksSituations.Situation}/${bookItem.id}`}
                 className="Link-Card-Item"
               >
                 <BookCard

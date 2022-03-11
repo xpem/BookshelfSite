@@ -1,5 +1,9 @@
 import { db } from "../firebase";
 
+//doc
+// let key = "-LlouZxkW1N3Llt6h5nm"
+// firebase.database().ref(`users/${userUid}/collection/${key}`).remove()
+
 //create book in firebase with the model of existig books in database
 export async function CreateBook(
   Authors,
@@ -59,7 +63,8 @@ export async function UpdateBook(
   Year
 ) {
   await db
-    .ref("BooksBeta").child(Id)
+    .ref("BooksBeta")
+    .child(Id)
     .update({
       Authors,
       BooksSituations,
@@ -80,6 +85,19 @@ export async function UpdateBook(
     })
     .catch(function (error) {
       console.log("erro ao atualizar" + error);
+    });
+}
+
+export async function DeleteBook(Id) {
+  await db
+    .ref("BooksBeta")
+    .child(Id)
+    .remove()
+    .then(function () {
+      console.log("Deletado!");
+    })
+    .catch(function (error) {
+      console.log("erro ao deletar" + error);
     });
 }
 

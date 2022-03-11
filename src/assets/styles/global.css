@@ -111,9 +111,30 @@ legend {
   border-color: #155724;
 }
 
+.alert-danger {
+  color: #a72c1c;
+  background-color: #f5a196;
+  border-color: #d15444;
+}
+
 .button-success:hover {
   color: #fff;
   background-color: #0f421b;
+}
+
+
+.btn-danger {
+  background-color: #a72c1c;
+  font-size: 1.5rem;
+  color: white;
+  margin-top: 1rem;
+  width: auto;
+  padding: 5px;
+}
+
+.button-danger:hover {
+  color: #fff;
+  background-color: #7c2115;
 }
 
 .Link-Card-Item {
