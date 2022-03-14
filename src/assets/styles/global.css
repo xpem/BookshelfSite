@@ -27,8 +27,8 @@ body {
 
 #root {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 body,
@@ -87,6 +87,7 @@ legend {
   border-radius: 0.25rem;
   padding: 4px;
   margin: 2px;
+  color: white;
 }
 
 .alert {
@@ -121,7 +122,6 @@ legend {
   color: #fff;
   background-color: #0f421b;
 }
-
 
 .btn-danger {
   background-color: #a72c1c;

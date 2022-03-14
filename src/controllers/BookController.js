@@ -101,7 +101,7 @@ export async function DeleteBook(Id) {
     });
 }
 
-export async function GetBooks(userKey) {
+export async function GetBooks(userKey, Situation, TextSearch) {
   var data = [];
   try {
     await db
@@ -111,10 +111,23 @@ export async function GetBooks(userKey) {
       .once("value", (snapshot) => {
         if (snapshot != null) {
           snapshot.forEach((childSnapshot) => {
-            data.push({
-              id: childSnapshot.key,
-              ...childSnapshot.val(),
-            });
+            if (
+              Situation == "" ||
+              childSnapshot.val().BooksSituations.Situation == Situation ||
+              Situation == 4
+            ) {
+              console.table("teste" + TextSearch);
+              if (
+                TextSearch == "" ||
+                childSnapshot.val().Title.includes(TextSearch)
+              ) {
+                console.table(childSnapshot.val());
+                data.push({
+                  id: childSnapshot.key,
+                  ...childSnapshot.val(),
+                });
+              }
+            }
           });
         } else {
           console.log("tabela nula");
@@ -123,7 +136,6 @@ export async function GetBooks(userKey) {
   } catch (err) {
     console.log(err);
   }
-  console.log(data);
   return data;
 }
 

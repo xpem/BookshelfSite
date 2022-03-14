@@ -61,7 +61,7 @@ function MainPage() {
   }
 
   useEffect(() => {
-    GetBooks(currentUser.uid).then((d) => SetTotals(d));
+    GetBooks(currentUser.uid,"","").then((d) => SetTotals(d));
   }, []);
 
   return (

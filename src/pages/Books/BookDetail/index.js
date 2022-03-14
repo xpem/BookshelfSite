@@ -75,7 +75,7 @@ export default function BookDetail() {
     DeleteBook(BookId);
   }
 
-  async function HandleConfirmDeleteBookButton(){
+  async function HandleConfirmDeleteBookButton() {
     setContinue(true);
     setConfirmDeleteBook(true);
   }
@@ -151,8 +151,12 @@ export default function BookDetail() {
                 <b>{Book.length > 0 ? Book[0].Title : ""}</b>
               </p>
               <p className="p-subtitle">
-                {Book.length > 0 ? Book[0].SubTitle : ""}; Vol.:{" "}
-                {Book.length > 0 ? Book[0].Volume : ""}
+                {Book.length > 0
+                  ? Book[0].SubTitle != ""
+                    ? Book[0].SubTitle + ";"
+                    : ""
+                  : ""}{" "}
+                Vol.: {Book.length > 0 ? Book[0].Volume : ""}
               </p>
               <p className="p-label">Autores:</p>
               <p className="p-text">{Book.length > 0 ? Book[0].Authors : ""}</p>
@@ -267,7 +271,9 @@ export default function BookDetail() {
                         className="btn btn-danger"
                         style={{ marginTop: "1rem" }}
                         onClick={() =>
-                          DeleteBookAsync().then(() => HandleConfirmDeleteBookButton())
+                          DeleteBookAsync().then(() =>
+                            HandleConfirmDeleteBookButton()
+                          )
                         }
                       >
                         Confirmar Exclusão

@@ -18,48 +18,72 @@ export default function BookList() {
   const [Books, setBooks] = useState([]);
   const { Situation } = useParams();
   const [HeaderText, setHeaderText] = useState("");
+  const [SearchText, setSearchText] = useState("");
 
   useEffect(() => {
     setLoading(true);
-    GetBooksList(currentUser.uid);
-    DefineHeaderText().then(()=> console.log(HeaderText));
+    GetBooksList("")
+    DefineHeaderText("");
     setLoading(false);
   }, []);
 
- async function DefineHeaderText() {
+  async function DefineHeaderText() {
     switch (Situation) {
-      case '0':
+      case "0":
         setHeaderText("Livros do arquivo");
         return;
-      case '1':
+      case "1":
         setHeaderText("Livros que vou ler");
         return;
-      case '2':
+      case "2":
         setHeaderText("Livros que estou lendo");
         return;
-      case '3':
+      case "3":
         setHeaderText("Livros lidos");
         return;
-      case '4':
+      case "4":
         setHeaderText("Livros interrompidos");
         return;
     }
   }
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-  async function GetBooksList(userKey) {
-    await GetBooks(userKey).then((d) => setBooks(d));
+  async function GetBooksList(searchText) {
+    await GetBooks(currentUser.uid,Situation,searchText).then((d) => setBooks(d));
+  } 
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    GetBooksList(SearchText);
   }
 
   return (
     <>
       <Header Label={HeaderText} loading={loading} to="/" />
       <div className="Main-Frame">
-        {Books.map((bookItem) => {
-          console.log(bookItem.id);
-          if (
-            bookItem.BooksSituations.Situation == Situation ||
-            Situation == 4
-          ) {
+        <form onSubmit={handleSubmit}>
+          <div className="pnl-search-group ">
+            <input
+              type="text"
+              placeholder="Busque pelo nome do livro"
+              className="search-input"
+              aria-label="Busque pelo nome do livro"
+              aria-describeby="btn-search"
+              id="input-search"
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+            ></input>
+            <button
+               type="submit"
+              className="btn btn-secondary btn-search"
+              id="button-search"
+            >
+              Buscar
+            </button>
+          </div>
+        </form>
+        {Books.map((bookItem) => {         
             return (
               <Link
                 to={`/BookDetail/${bookItem.BooksSituations.Situation}/${bookItem.id}`}
@@ -76,7 +100,7 @@ export default function BookList() {
                 ></BookCard>
               </Link>
             );
-          }
+          
         })}
       </div>
     </>
